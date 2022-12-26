@@ -1,14 +1,37 @@
 
+import mapboxgl from 'mapbox-gl';
 
-function iframeManipulate(e) {
-    const iframe = document.querySelector('iframe');
-    // const fold = iframe.contentWindow.document.querySelector('.i4ewOd-pzNkMb-ornU0b-b0t70b-Bz112c');
-    // console.log(iframe.contentWindow.document);
-    // console.log(fold);
+
+
+
+// MAIN FUNCTION
+
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb2xobHZrMG1kY2gifQ.ndu_e63-o0H8MAWnvQ3EWA';
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7',
+    center: [11.172883, 39.720579], // 11.172883, 39.720579
+    zoom: 1.48,
+});
+
+
+const inputs = document.querySelectorAll('#menu input');
+console.log(inputs);
+ 
+for (const input of inputs) {
+    input.onclick = (layer) => {
+        const layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+    };
 }
 
 
-// const button = document.querySelector('button');
-// button.onclick = iframeManipulate;
 
-// MULTILINESTRING ((-93.715924 32.217872, -93.703564 31.895473, -90.95186 30.033799), (-91.179409 30.437255, -90.965176 30.302187))
+
+// access token: 
+// pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb2xobHZrMG1kY2gifQ.ndu_e63-o0H8MAWnvQ3EWA
+
+// map urls:
+// 1. monochrome: mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7
+// 2. Satelite: mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek
