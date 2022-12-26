@@ -9,10 +9,17 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
-    <div class="contents">
-        <iframe src="https://www.google.com/maps/d/embed?mid=13vHTM5sqaqAWLJVwgB19c0CaWdPx0VY&ehbc=2E312F" width="100%" height="700"></iframe>
-    </div>
     
+    <div id="map"></div>
+
+
+    <div id="menu">
+        <input id="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7" type="radio" name="monochrome" value="monochrome" checked="checked">
+        <label for="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7">Monochrome (Default)</label>
+        <input id="mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek" type="radio" name="satellite" value="satellite">
+        <label for="mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek">Satellite View</label>
+    </div>
+
 </body>
 <script src="main.js"></script>
 </html>
