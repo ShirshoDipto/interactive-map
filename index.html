@@ -13,12 +13,18 @@
     <div id="map"></div>
 
 
-    <div id="menu">
-        <input id="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7" type="radio" name="monochrome" value="monochrome" checked="checked">
+    <div id="map-styles">
+        <input id="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7" type="radio" name="rtoggle" value="monochrome" checked="checked">
         <label for="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7">Monochrome (Default)</label>
-        <input id="mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek" type="radio" name="satellite" value="satellite">
+        <input id="mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek" type="radio" name="rtoggle" value="satellite">
         <label for="mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek">Satellite View</label>
     </div>
+
+    <nav id="layers">
+        <a href="#" class="active" id="conflicted-zones">Conflicted Zones</a>
+        <a href="#" class="active" id="oil-pipelines">Oil Pipelines</a>
+        <a href="#" class="active" id="gas-pipelines">Gas Pipelines</a>
+    </nav>
 
 </body>
 <script src="main.js"></script>
