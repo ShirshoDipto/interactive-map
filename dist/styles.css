@@ -316,6 +316,7 @@
     background-color: var(--generic-background);
     padding: 10px;
     border-radius: 5px;
+    box-shadow: 5px 5px 5px var(--shadow-color);
 }
 
 .legend-header {
@@ -325,8 +326,30 @@
     padding-bottom: 5px;
 }
 
-/* make active  */
-/* div[dataId='conflict-legend'].active {
-    transform: scale(1);
-} */
 
+
+
+/* popUp styling  */
+.pop-up {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    /* position: absolute;
+    top: 200px;
+    left: 200px; */
+    width: 200px;
+    height: 400px;
+    overflow: auto;
+}
+
+.pop-up .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+
+/* styleing for mapbox popup  */
+.mapboxgl-popup-content {
+    opacity: 0.8;
+}

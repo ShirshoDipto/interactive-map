@@ -1,5 +1,6 @@
 
 import mapboxgl from 'mapbox-gl';
+import { createConflictPopUp } from './popUp';
 
 
 function toggleLayer(e) {
@@ -43,7 +44,27 @@ function updateLegends(e) {
 }
 
 
+function displayPopUp(e) {
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const div = createConflictPopUp(e.features[0].properties);
 
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setDOMContent(div)
+        .addTo(map);
+
+    map.on('mouseenter', 'places', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+            
+    map.on('mouseleave', 'places', () => {
+        map.getCanvas().style.cursor = '';
+    });
+}
 
 
 // MAIN FUNCTION
@@ -81,6 +102,16 @@ const legendsInputs = document.querySelectorAll('.legends-inputs input');
 for (const input of legendsInputs) {
     input.onclick = updateLegends;
 }
+
+// map.on('click', 'gas-pipelines', (e) => {
+//     console.log(e.features);
+// })
+
+
+// add popup features
+map.on('click', 'conflicted-zones', (e) => {
+    displayPopUp(e);
+})
 
 
 
