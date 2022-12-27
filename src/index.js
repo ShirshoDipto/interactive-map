@@ -9,13 +9,36 @@ function toggleLayer(e) {
     console.log(clickedLayer);
     const visibility = map.getLayoutProperty(clickedLayer, 'visibility');
 
+    const lines2 = e.target.getAttribute('lines2');
+    console.log(lines2);
+
     if (visibility === 'visible' || visibility === undefined) {
         map.setLayoutProperty(clickedLayer, 'visibility', 'none');
         this.className = '';
-    } 
+        if (lines2 !== null) {
+            map.setLayoutProperty(lines2, 'visibility', 'none');
+        }
+    }
     else {
         this.className = 'active';
         map.setLayoutProperty(clickedLayer,'visibility','visible');
+        if (lines2 !== null) {
+            map.setLayoutProperty(lines2, 'visibility', 'visible');
+        }
+    }
+}
+
+
+function updateLegends(e) {
+    const legendName = e.target.id;
+    const allLegends = document.querySelectorAll('div[dataId]');
+    for (const legend of allLegends) {
+        if (legend.getAttribute('dataId') !== legendName) {
+            legend.classList.add('hide');
+        }
+        else {
+            legend.classList.remove('hide');
+        }
     }
 }
 
@@ -38,22 +61,25 @@ const map = new mapboxgl.Map({
 
 map.on('idle', () => {
     console.log('reached idle');
+    // console.log(map.getStyle().layers[11]);
 
     allLayers.forEach((layer) => {
         layer.onclick = toggleLayer;
     })
 });
 
-const inputs = document.querySelectorAll('#map-styles input');
+const viewInputs = document.querySelectorAll('#map-styles input');
  
-for (const input of inputs) {
+for (const input of viewInputs) {
     input.onclick = (layer) => {
         map.setStyle(layer.target.id);
     };
 }
 
-function helloJi(e) {
-    console.log('hi there');
+const legendsInputs = document.querySelectorAll('.legends-inputs input');
+
+for (const input of legendsInputs) {
+    input.onclick = updateLegends;
 }
 
 
