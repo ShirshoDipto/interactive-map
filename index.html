@@ -23,8 +23,110 @@
     <nav id="layers">
         <a href="#" class="active" id="conflicted-zones">Conflicted Zones</a>
         <a href="#" class="active" id="oil-pipelines">Oil Pipelines</a>
-        <a href="#" class="active" id="gas-pipelines">Gas Pipelines</a>
+        <a href="#" class="active" id="gas-pipelines" lines2="gem-ggit-gas-pipelines-decemb-djub52">Gas Pipelines</a>
     </nav>
+
+
+    <!-- conflict zone details  -->
+    <div class="conflict-zones-detail" dataId="conflict-legend">
+        <div class="header">
+            Years since conflict began
+        </div>
+        <div class="labels">
+            <div class="start">5</div>
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+            <div class="circle3"></div>
+            <div class="circle4"></div>
+            <div class="circle5"></div>
+            <div class="end">70</div>
+        </div>
+    </div>
+
+
+    <!-- oil-pipelines details  -->
+    <div class="labels-details" id="oil-linestrings" dataId="oil-legend">
+        <div class="status">Oil Pipelines</div>
+        <div class="color-operating"><div></div></div>
+        <div class="name-operating">Operating</div>
+        <div class="color-retired"><div></div></div>
+        <div class="name-retired">Retired</div>
+        <div class="color-cancelled"><div></div></div>
+        <div class="name-cancelled">Cancelled</div>
+        <div class="color-construction"><div></div></div>
+        <div class="name-construction">Construction</div>
+        <div class="color-shelved"><div></div></div>
+        <div class="name-shelved">Shelved</div>
+        <div class="color-proposed"><div></div></div>
+        <div class="name-proposed">Proposed</div>
+        <div class="color-mothballed"><div></div></div>
+        <div class="name-mothballed">Mothballed</div>
+        <div class="color-idle"><div></div></div>
+        <div class="name-idle">Idle</div>
+    </div>
+
+
+    <!-- gas-pipelines details  -->
+    <div class="labels-details" id="gas-linestrings" dataId="gas-legend">
+        <div class="status">Gas Pipelines</div>
+        <div class="color-operating"><div></div></div>
+        <div class="name-operating">Operating</div>
+        <div class="color-cancelled"><div></div></div>
+        <div class="name-cancelled">Cancelled</div>
+        <div class="color-construction"><div></div></div>
+        <div class="name-construction">Construction</div>
+        <div class="color-shelved"><div></div></div>
+        <div class="name-shelved">Shelved</div>
+        <div class="color-proposed"><div></div></div>
+        <div class="name-proposed">Proposed</div>
+        <div class="color-mothballed"><div></div></div>
+        <div class="name-mothballed">Mothballed</div>
+        <div class="color-idle"><div></div></div>
+        <div class="name-idle">Idle</div>
+    </div>
+
+
+    <!-- gas pipelines summary  -->
+    <div class="pipelines-summary" id="gas-pipelines-summary" dataId="gas-legend">
+        <div class="title">Worldwide</div>
+        <div class="total">Total Projects: 3767</div>
+        <div class="table">
+            <div>LNG Terminals (Imports): </div><div class="value">601</div>
+            <div>LNG Terminals (Exports): </div><div class="value">563</div>
+            <div>Gas Pipelines: </div><div class="value">2603</div>
+        </div>
+    </div>
+
+
+    <!-- oil pipelines summary  -->
+    <div class="pipelines-summary" id="oil-pipelines-summary" dataId="oil-legend">
+        <div class="title">Worldwide</div>
+        <div class="total">Total Oil Pipelines: 782</div>
+        <div class="table">
+            <div>Operating: </div><div class="value">612</div>
+            <div>Construction: </div><div class="value">29</div>
+            <div>Proposed: </div><div class="value">40</div>
+            <div>Cancelled: </div><div class="value">67</div>
+            <div>Shelved: </div><div class="value">11</div>
+            <div>Retired: </div><div class="value">17</div>
+            <div>Mothballed: </div><div class="value">4</div>
+            <div>Idle: </div><div class="value">2</div>
+        </div>
+    </div>
+
+    <div id="show-legends">
+        <div class="legend-header">Show Legends</div>
+        <div class="legends-inputs">
+            <input id="conflict-legend" type="radio" name="rtoggle" value="conflict" checked="checked">
+            <label for="conflict-legend">Conflict Zones</label>
+            <input id="oil-legend" type="radio" name="rtoggle" value="oil">
+            <label for="oil-legend">Oil Pipelines</label>
+            <input id="gas-legend" type="radio" name="rtoggle" value="gas">
+            <label for="gas-legend">Gas Pipelines</label>
+        </div>
+    </div>
+
+
 
 </body>
 <script src="main.js"></script>
