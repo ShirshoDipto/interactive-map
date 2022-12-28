@@ -80,9 +80,6 @@ const map = new mapboxgl.Map({
 
 
 map.on('idle', () => {
-    console.log('reached idle');
-    console.log(map.getStyle());
-
     allLayers.forEach((layer) => {
         layer.onclick = toggleLayer;
     })
