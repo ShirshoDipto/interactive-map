@@ -7,7 +7,6 @@ function toggleLayer(e) {
     e.preventDefault();
     e.stopPropagation();
     const clickedLayer = e.target.id;
-    console.log(clickedLayer);
     const visibility = map.getLayoutProperty(clickedLayer, 'visibility');
 
     const lines2 = e.target.getAttribute('lines2');
@@ -82,30 +81,19 @@ const map = new mapboxgl.Map({
 
 map.on('idle', () => {
     console.log('reached idle');
-    // console.log(map.getStyle().layers[11]);
+    console.log(map.getStyle());
 
     allLayers.forEach((layer) => {
         layer.onclick = toggleLayer;
     })
 });
 
-const viewInputs = document.querySelectorAll('#map-styles input');
- 
-for (const input of viewInputs) {
-    input.onclick = (layer) => {
-        map.setStyle(layer.target.id);
-    };
-}
 
 const legendsInputs = document.querySelectorAll('.legends-inputs input');
 
 for (const input of legendsInputs) {
     input.onclick = updateLegends;
 }
-
-// map.on('click', 'gas-pipelines', (e) => {
-//     console.log(e.features);
-// })
 
 
 // add popup features
@@ -116,12 +104,12 @@ map.on('click', 'conflicted-zones', (e) => {
 
 
 
-// access token: 
-// pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb2xobHZrMG1kY2gifQ.ndu_e63-o0H8MAWnvQ3EWA
 
-// map urls:
-// 1. monochrome: mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7
-// 2. Satelite: mapbox://styles/shirshodipto/clc49j0ir000y14quh4lr05ek
 
-// const satellite = 
-
+// const viewInputs = document.querySelectorAll('#map-styles input');
+ 
+// for (const input of viewInputs) {
+//     input.onclick = (layer) => {
+//         map.setStyle(layer.target.id);
+//     };
+// }
