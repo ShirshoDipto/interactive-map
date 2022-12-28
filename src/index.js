@@ -3,8 +3,6 @@ import mapboxgl from 'mapbox-gl';
 import { createConflictPopUp } from './popUp';
 
 
-let mapIds = ["conflicted-zones", "oil-pipelines", "gas-pipelines"];
-
 function toggleLayer(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -64,6 +62,10 @@ function changeStyle(layer) {
 // ############## MAIN FUNCTION ###################
 
 const allLayers = document.querySelectorAll('#layers a');
+const viewInputs = document.querySelectorAll('#map-styles input');
+let prevLayers;
+let isChangeStyle = 0;
+let mapIds = ["conflicted-zones", "oil-pipelines", "gas-pipelines"];
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb2xobHZrMG1kY2gifQ.ndu_e63-o0H8MAWnvQ3EWA';
 const map = new mapboxgl.Map({
@@ -73,11 +75,6 @@ const map = new mapboxgl.Map({
     zoom: 1.48,
 });
 
-
-const viewInputs = document.querySelectorAll('#map-styles input');
-let prevLayers;
-let isChangeStyle = 0;
- 
 for (const input of viewInputs) {
     input.onclick = (layer) => {
         changeStyle(layer);
