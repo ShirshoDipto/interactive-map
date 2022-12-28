@@ -71,8 +71,8 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7',
-    center: [11.172883, 39.720579],
-    zoom: 1.48,
+    center: [11.172883, 20.720579],
+    zoom: 1.2
 });
 
 for (const input of viewInputs) {
