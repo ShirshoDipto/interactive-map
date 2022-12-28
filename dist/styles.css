@@ -14,12 +14,11 @@
     --oil-proposed: #22918f;
     --oil-mothballed: #38d515;
     --oil-idle: #c4eb28;
-    --gas-operating: #31bf18;
-    /* --gas-retired: #4833e6; */
+    --gas-operating: #37a923;
     --gas-cancelled: #ce2c2c;
     --gas-construction: #3b25e4;
     --gas-shelved: #bc15b7;
-    --gas-proposed: #1dbfbc;
+    --gas-proposed: #817931;
     --gas-mothballed: #9cc66c;
     --gas-idle: #eb379d;
     --shadow-color: rgb(151, 150, 150);
@@ -52,12 +51,9 @@
     z-index: 1;
     top: 10px;
     right: 10px;
-    border-radius: 3px;
     width: 120px;
-    border: 1px solid rgba(0, 0, 0, 0.4);
     font-family: 'Open Sans', sans-serif;
-    border-radius: 5px;
-    box-shadow: 5px 5px 5px var(--shadow-color);
+    box-shadow: 0px 5px 5px var(--shadow-color);
 }
 
 #layers a {
@@ -99,7 +95,7 @@
     align-items: center;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 5px 5px 5px rgb(151, 150, 150);
+    box-shadow: 0px 5px 5px rgb(151, 150, 150);
     gap: 5px;
     bottom: var(--from-bottom);
     right: var(--from-right);
@@ -160,7 +156,7 @@
     position: absolute;
     background-color: var(--generic-background);
     border-radius: 5px;
-    box-shadow: 5px 5px 5px var(--shadow-color);
+    box-shadow: 0px 5px 5px var(--shadow-color);
     font-size: 0.8rem;
 }
 
@@ -257,7 +253,7 @@
     flex-direction: column;
     background-color: var(--generic-background);
     border-radius: 5px;
-    box-shadow: 5px 5px 5px var(--shadow-color);
+    box-shadow: 0px 5px 5px var(--shadow-color);
     gap: 10px;
     padding: 10px;
     position: absolute;
@@ -318,7 +314,7 @@
     background-color: var(--generic-background);
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 5px 5px 5px var(--shadow-color);
+    box-shadow: 0px 5px 5px var(--shadow-color);
 }
 
 .legend-header {

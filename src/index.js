@@ -3,6 +3,8 @@ import mapboxgl from 'mapbox-gl';
 import { createConflictPopUp } from './popUp';
 
 
+let mapIds = ["conflicted-zones", "oil-pipelines", "gas-pipelines"];
+
 function toggleLayer(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -15,16 +17,10 @@ function toggleLayer(e) {
     if (visibility === 'visible' || visibility === undefined) {
         map.setLayoutProperty(clickedLayer, 'visibility', 'none');
         this.className = '';
-        if (lines2 !== null) {
-            map.setLayoutProperty(lines2, 'visibility', 'none');
-        }
     }
     else {
         this.className = 'active';
         map.setLayoutProperty(clickedLayer,'visibility','visible');
-        if (lines2 !== null) {
-            map.setLayoutProperty(lines2, 'visibility', 'visible');
-        }
     }
 }
 
@@ -59,18 +55,13 @@ function displayPopUp(e) {
 
 
 function changeStyle(layer) {
-    const prevLayers = map.style._layers;
-    console.log(prevLayers);
+    prevLayers = map.style._layers;
     map.setStyle(layer.target.id);
-    map.on('idle', () => {
-        const currentLayers = map.style._layers;
-        map.style._layers['conflicted-zones'] = prevLayers['conflicted-zones'];
-        console.log(currentLayers);
-    })
+    isChangeStyle = 1;
 }
 
 
-// MAIN FUNCTION
+// ############## MAIN FUNCTION ###################
 
 const allLayers = document.querySelectorAll('#layers a');
 
@@ -84,6 +75,8 @@ const map = new mapboxgl.Map({
 
 
 const viewInputs = document.querySelectorAll('#map-styles input');
+let prevLayers;
+let isChangeStyle = 0;
  
 for (const input of viewInputs) {
     input.onclick = (layer) => {
@@ -95,7 +88,19 @@ for (const input of viewInputs) {
 map.on('idle', () => {
     allLayers.forEach((layer) => {
         layer.onclick = toggleLayer;
+        console.log('idle');
     })
+
+    // if the map has changed style, load 
+    // previous styles layers
+    if (isChangeStyle === 1) {
+        for (const layer of mapIds) {
+            const prevVis = prevLayers[`${layer}`].visibility;
+            console.log(prevVis);
+            map.setLayoutProperty(layer, 'visibility', prevVis);
+        }
+        isChangeStyle = 0;
+    }
 });
 
 
