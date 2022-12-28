@@ -55,14 +55,18 @@ function displayPopUp(e) {
         .setLngLat(coordinates)
         .setDOMContent(div)
         .addTo(map);
+}
 
-    map.on('mouseenter', 'places', () => {
-        map.getCanvas().style.cursor = 'pointer';
-    });
-            
-    map.on('mouseleave', 'places', () => {
-        map.getCanvas().style.cursor = '';
-    });
+
+function changeStyle(layer) {
+    const prevLayers = map.style._layers;
+    console.log(prevLayers);
+    map.setStyle(layer.target.id);
+    map.on('idle', () => {
+        const currentLayers = map.style._layers;
+        map.style._layers['conflicted-zones'] = prevLayers['conflicted-zones'];
+        console.log(currentLayers);
+    })
 }
 
 
@@ -77,6 +81,15 @@ const map = new mapboxgl.Map({
     center: [11.172883, 39.720579],
     zoom: 1.48,
 });
+
+
+const viewInputs = document.querySelectorAll('#map-styles input');
+ 
+for (const input of viewInputs) {
+    input.onclick = (layer) => {
+        changeStyle(layer);
+    };
+}
 
 
 map.on('idle', () => {
@@ -97,3 +110,11 @@ for (const input of legendsInputs) {
 map.on('click', 'conflicted-zones', (e) => {
     displayPopUp(e);
 })
+
+map.on('mouseenter', 'conflicted-zones', () => {
+    map.getCanvas().style.cursor = 'pointer';
+});
+        
+map.on('mouseleave', 'conflicted-zones', () => {
+    map.getCanvas().style.cursor = '';
+});
