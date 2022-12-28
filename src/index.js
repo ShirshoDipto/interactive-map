@@ -100,16 +100,3 @@ for (const input of legendsInputs) {
 map.on('click', 'conflicted-zones', (e) => {
     displayPopUp(e);
 })
-
-
-
-
-
-
-// const viewInputs = document.querySelectorAll('#map-styles input');
- 
-// for (const input of viewInputs) {
-//     input.onclick = (layer) => {
-//         map.setStyle(layer.target.id);
-//     };
-// }
