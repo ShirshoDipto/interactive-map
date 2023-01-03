@@ -67,7 +67,6 @@ function changeStyle(layer) {
 }
 
 // ############ MAIN WORKFLOW #############
-
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
     changeStyle(layer);
