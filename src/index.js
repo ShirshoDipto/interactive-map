@@ -4,9 +4,9 @@ import createConflictPopUp from "./popUp";
 const allLayers = document.querySelectorAll("#layers a");
 const viewInputs = document.querySelectorAll("#map-styles input");
 const legendsInputs = document.querySelectorAll(".legends-inputs input");
-const oilSubLayers = document.querySelectorAll('#oil-linestrings div input');
-const gasSubLayers = document.querySelectorAll('#gas-linestrings div input');
-const loading = document.querySelector('.loading');
+const oilSubLayers = document.querySelectorAll("#oil-linestrings div input");
+const gasSubLayers = document.querySelectorAll("#gas-linestrings div input");
+const loading = document.querySelector(".loading");
 let currentLayer;
 let isChangeStyle = 0;
 let isOilActive = 1;
@@ -24,7 +24,7 @@ const mapIds = {
     "oil-pipelines-shelved",
     "oil-pipelines-proposed",
     "oil-pipelines-mothballed",
-    "oil-pipelines-idle"
+    "oil-pipelines-idle",
   ],
   "gas-pipelines": [
     "gas-pipelines-operating",
@@ -34,8 +34,8 @@ const mapIds = {
     "gas-pipelines-shelved",
     "gas-pipelines-proposed",
     "gas-pipelines-mothballed",
-    "gas-pipelines-idle"
-  ]
+    "gas-pipelines-idle",
+  ],
 };
 
 mapboxgl.accessToken =
@@ -73,30 +73,28 @@ function displayPopUp(e) {
 }
 
 function updateLayerDatas(main, isAdd) {
-
   const mainLayer = document.getElementById(main);
-  if (main === 'oil-pipelines') {
+  if (main === "oil-pipelines") {
     if (isAdd) {
       activeOilSublayers += 1;
-      mainLayer.className = 'active';
+      mainLayer.className = "active";
       isOilActive = 1;
     } else {
       activeOilSublayers -= 1;
       if (activeOilSublayers === 0) {
-        mainLayer.className = '';
+        mainLayer.className = "";
         isOilActive = 0;
       }
     }
-  }
-  else if (main === 'gas-pipelines') {
+  } else if (main === "gas-pipelines") {
     if (isAdd) {
       activeGasSublayers += 1;
-      mainLayer.className = 'active';
+      mainLayer.className = "active";
       isGasActive = 1;
     } else {
       activeGasSublayers -= 1;
       if (activeGasSublayers === 0) {
-        mainLayer.className = '';
+        mainLayer.className = "";
         isGasActive = 0;
       }
     }
@@ -107,7 +105,7 @@ function manageSublayers(aSubLayer, e) {
   // e.preventDefault();
   e.stopPropagation();
   const sublayer = aSubLayer.id;
-  const main = aSubLayer.parentElement.parentElement.getAttribute('mainLayer');
+  const main = aSubLayer.parentElement.parentElement.getAttribute("mainLayer");
   const visibility = map.getLayoutProperty(sublayer, "visibility");
   if (visibility === "visible" || visibility === undefined) {
     updateLayerDatas(main, false);
@@ -120,70 +118,74 @@ function manageSublayers(aSubLayer, e) {
 
 function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
   if (isActive === 1) {
-    mainLayerInputs.forEach(anInput => {
+    mainLayerInputs.forEach((anInput) => {
       anInput.checked = false;
       updateLayerDatas(mainLayerName, false);
       map.setLayoutProperty(anInput.id, "visibility", "none");
-    })
+    });
   } else {
-    mainLayerInputs.forEach(anInput => {
+    mainLayerInputs.forEach((anInput) => {
       anInput.checked = true;
       updateLayerDatas(mainLayerName, true);
       map.setLayoutProperty(anInput.id, "visibility", "visible");
-    })
+    });
   }
 }
 
 function toggleMainLayer(e) {
   e.preventDefault();
   e.stopPropagation();
-  loading.classList.remove('hide');
+  loading.classList.remove("hide");
   const clickedLayer = e.target.id;
-  if (clickedLayer === 'oil-pipelines') {
+  if (clickedLayer === "oil-pipelines") {
     toggleMainLayerHelper(isOilActive, clickedLayer, oilSubLayers);
-  }
-  else if (clickedLayer === 'gas-pipelines') {
+  } else if (clickedLayer === "gas-pipelines") {
     toggleMainLayerHelper(isGasActive, clickedLayer, gasSubLayers);
-  }
-  else if (clickedLayer === 'conflicted-zones') {
+  } else if (clickedLayer === "conflicted-zones") {
     if (isZoneActive === 0) {
       this.className = "active";
       isZoneActive = 1;
-      map.setLayoutProperty(mapIds['conflicted-zones'][0], "visibility", "visible");
+      map.setLayoutProperty(
+        mapIds["conflicted-zones"][0],
+        "visibility",
+        "visible"
+      );
     } else {
       this.className = "";
       isZoneActive = 0;
-      map.setLayoutProperty(mapIds['conflicted-zones'][0], "visibility", "none");
+      map.setLayoutProperty(
+        mapIds["conflicted-zones"][0],
+        "visibility",
+        "none"
+      );
     }
   }
 }
 
-
 // ############ MAIN WORKFLOW #############
 
-oilSubLayers.forEach(layer => {
-  layer.addEventListener('click', (e) => {
-    loading.classList.remove('hide');
-    console.log(layer);
+oilSubLayers.forEach((layer) => {
+  layer.addEventListener("click", (e) => {
+    loading.classList.remove("hide");
     manageSublayers(layer, e);
   });
-})
+});
 
-gasSubLayers.forEach(layer => {
-  layer.addEventListener('click', (e) => {
-    loading.classList.remove('hide');
+gasSubLayers.forEach((layer) => {
+  layer.addEventListener("click", (e) => {
+    loading.classList.remove("hide");
     manageSublayers(layer, e);
   });
-})
+});
 
 map.on("load", () => {
-  loading.classList.remove('hide');
+  loading.classList.remove("hide");
   currentLayer = map.style._layers;
-  Object.values(mapIds).forEach(value => {
-    value.forEach(layer => {
+  Object.values(mapIds).forEach((value) => {
+    value.forEach((layer) => {
       map.setLayoutProperty(layer, "visibility", "visible");
-    })
-  })
+    });
+  });
 });
 
 map.on("idle", () => {
@@ -194,10 +196,10 @@ map.on("idle", () => {
   legendsInputs.forEach((input) => {
     input.addEventListener("click", updateLegends);
   });
-  
+
   viewInputs.forEach((input) => {
     input.addEventListener("click", (layer) => {
-      loading.classList.remove('hide');
+      loading.classList.remove("hide");
       map.setStyle(layer.target.id);
       isChangeStyle = 1;
     });
@@ -208,15 +210,15 @@ map.on("idle", () => {
   if (isChangeStyle === 1) {
     isChangeStyle = 0;
     Object.values(mapIds).forEach((mainLayer) => {
-      mainLayer.forEach(sublayer => {
+      mainLayer.forEach((sublayer) => {
         const prevVis = currentLayer[`${sublayer}`].visibility;
         map.setLayoutProperty(sublayer, "visibility", prevVis);
-      })
+      });
     });
     currentLayer = map.style._layers;
   }
   console.log("idle");
-  loading.classList.add('hide');
+  loading.classList.add("hide");
 });
 
 // add popup features
