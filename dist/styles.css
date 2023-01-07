@@ -368,17 +368,16 @@
     bottom: 3px;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    gap: 0px;
     font-size: 0.9rem;
 }
 
 
 /* styling for data credit  */
 .credits {
-    position: absolute;
-    bottom: 0;
-    right: 270px;
-    background-color: var(--generic-background);
     padding: 3px;
     font-size: 0.8rem;
 }

@@ -1,16 +1,17 @@
 import mapboxgl from "mapbox-gl";
 import createConflictPopUp from "./popUp";
 
-const layers = document.getElementById('layers');
+const layers = document.getElementById("layers");
 const allLayers = document.querySelectorAll("#layers a");
 const viewInputs = document.querySelectorAll("#map-styles input");
-const mapStylesDiv = document.querySelector('#map-styles');
-const showLegends = document.querySelector('#show-legends');
+const mapStylesDiv = document.querySelector("#map-styles");
+const showLegends = document.querySelector("#show-legends");
 const legendsInputs = document.querySelectorAll(".legends-inputs input");
-const conflictZonesLegends = document.querySelector('.conflict-zones-detail');
+const conflictZonesLegends = document.querySelector(".conflict-zones-detail");
 const oilSubLayers = document.querySelectorAll("#oil-linestrings div input");
 const gasSubLayers = document.querySelectorAll("#gas-linestrings div input");
 const loading = document.querySelector(".loading");
+const copyrightChilds = document.querySelectorAll('.copyright *');
 let currentLayer;
 let isChangeStyle = 0;
 let isOilActive = 1;
@@ -183,6 +184,14 @@ gasSubLayers.forEach((layer) => {
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
     loading.classList.remove("hide");
+    copyrightChilds.forEach(child => {
+      if (input.value === 'monochrome') {
+        child.style.color = 'black';
+      }
+      if (input.value === 'satellite') {
+        child.style.color = 'white';
+      }
+    })
     map.setStyle(layer.target.id);
     isChangeStyle = 1;
   });
@@ -207,11 +216,10 @@ map.on("load", () => {
 });
 
 map.on("idle", () => {
-
-  mapStylesDiv.className = '';
-  showLegends.className = '';
-  layers.className = '';
-  conflictZonesLegends.classList.remove('hide');
+  mapStylesDiv.className = "";
+  showLegends.className = "";
+  layers.className = "";
+  conflictZonesLegends.classList.remove("hide");
 
   // if the map has changed style, load
   // previous styles layers
