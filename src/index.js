@@ -172,7 +172,7 @@ gasSubLayers.forEach(layer => {
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
     map.setStyle(layer.target.id);
-    isChangeStyle += 1;
+    isChangeStyle = 1;
   });
 });
 
@@ -194,12 +194,14 @@ map.on("idle", () => {
   // if the map has changed style, load
   // previous styles layers
   if (isChangeStyle === 1) {
-    mapIds.forEach((layer) => {
-      const prevVis = currentLayer[`${layer}`].visibility;
-      map.setLayoutProperty(layer, "visibility", prevVis);
+    isChangeStyle = 0;
+    Object.values(mapIds).forEach((mainLayer) => {
+      mainLayer.forEach(sublayer => {
+        const prevVis = currentLayer[`${sublayer}`].visibility;
+        map.setLayoutProperty(sublayer, "visibility", prevVis);
+      })
     });
     currentLayer = map.style._layers;
-    isChangeStyle = 0;
   }
 });
 
