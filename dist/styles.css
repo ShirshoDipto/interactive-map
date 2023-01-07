@@ -15,6 +15,7 @@
     --oil-mothballed: #38d515;
     --oil-idle: #c4eb28;
     --gas-operating: #37a923;
+    --gas-retired: #1ecca6;
     --gas-cancelled: #ce2c2c;
     --gas-construction: #3b25e4;
     --gas-shelved: #bc15b7;
@@ -160,6 +161,12 @@
     font-size: 0.8rem;
 }
 
+.labels-details div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 #oil-linestrings {
     bottom: var(--from-bottom);
     right: var(--from-right);
@@ -220,6 +227,10 @@
 
 #gas-linestrings .color-operating div {
     background-color: var(--gas-operating);
+}
+
+#gas-linestrings .color-retired div {
+    background-color: var(--gas-retired);
 }
 
 #gas-linestrings .color-construction div {
@@ -323,8 +334,6 @@
     border-bottom: thin solid rgb(214, 205, 205);
     padding-bottom: 5px;
 }
-
-
 
 
 /* popUp styling  */

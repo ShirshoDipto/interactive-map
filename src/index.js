@@ -3,9 +3,39 @@ import createConflictPopUp from "./popUp";
 
 const allLayers = document.querySelectorAll("#layers a");
 const viewInputs = document.querySelectorAll("#map-styles input");
-let prevLayers;
+const legendsInputs = document.querySelectorAll(".legends-inputs input");
+const oilSubLayers = document.querySelectorAll('#oil-linestrings div input');
+const gasSubLayers = document.querySelectorAll('#gas-linestrings div input');
+let currentLayer;
 let isChangeStyle = 0;
-const mapIds = ["conflicted-zones", "oil-pipelines", "gas-pipelines"];
+let isOilActive = 1;
+let activeOilSublayers = 8;
+let activeGasSublayers = 8;
+let isGasActive = 1;
+let isZoneActive = 1;
+const mapIds = {
+  "conflicted-zones": ["conflicted-zones"],
+  "oil-pipelines": [
+    "oil-pipelines-operating",
+    "oil-pipelines-retired",
+    "oil-pipelines-cancelled",
+    "oil-pipelines-construction",
+    "oil-pipelines-shelved",
+    "oil-pipelines-proposed",
+    "oil-pipelines-mothballed",
+    "oil-pipelines-idle"
+  ],
+  "gas-pipelines": [
+    "gas-pipelines-operating",
+    "gas-pipelines-retired",
+    "gas-pipelines-cancelled",
+    "gas-pipelines-construction",
+    "gas-pipelines-shelved",
+    "gas-pipelines-proposed",
+    "gas-pipelines-mothballed",
+    "gas-pipelines-idle"
+  ]
+};
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb2xobHZrMG1kY2gifQ.ndu_e63-o0H8MAWnvQ3EWA";
@@ -17,24 +47,6 @@ const map = new mapboxgl.Map({
 });
 
 // ESLINT
-
-function toggleLayer(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const clickedLayer = e.target.id;
-  const visibility = map.getLayoutProperty(clickedLayer, "visibility");
-
-  //   const lines2 = e.target.getAttribute("lines2");
-  //   console.log(lines2);
-
-  if (visibility === "visible" || visibility === undefined) {
-    map.setLayoutProperty(clickedLayer, "visibility", "none");
-    this.className = "";
-  } else {
-    this.className = "active";
-    map.setLayoutProperty(clickedLayer, "visibility", "visible");
-  }
-}
 
 function updateLegends(e) {
   const legendName = e.target.id;
@@ -59,38 +71,138 @@ function displayPopUp(e) {
   new mapboxgl.Popup().setLngLat(coordinates).setDOMContent(div).addTo(map);
 }
 
-function changeStyle(layer) {
-  // eslint-disable-next-line no-underscore-dangle
-  prevLayers = map.style._layers;
-  map.setStyle(layer.target.id);
-  isChangeStyle += 1;
+function updateLayerDatas(main, isAdd) {
+
+  const mainLayer = document.getElementById(main);
+  if (main === 'oil-pipelines') {
+    if (isAdd) {
+      activeOilSublayers += 1;
+      mainLayer.className = 'active';
+      isOilActive = 1;
+    } else {
+      activeOilSublayers -= 1;
+      if (activeOilSublayers === 0) {
+        mainLayer.className = '';
+        isOilActive = 0;
+      }
+    }
+  }
+  else if (main === 'gas-pipelines') {
+    if (isAdd) {
+      activeGasSublayers += 1;
+      mainLayer.className = 'active';
+      isGasActive = 1;
+    } else {
+      activeGasSublayers -= 1;
+      if (activeGasSublayers === 0) {
+        mainLayer.className = '';
+        isGasActive = 0;
+      }
+    }
+  }
 }
 
+function manageSublayers(aSubLayer) {
+  const sublayer = aSubLayer.id;
+  const main = aSubLayer.parentElement.parentElement.getAttribute('mainLayer');
+  const visibility = map.getLayoutProperty(sublayer, "visibility");
+  if (visibility === "visible" || visibility === undefined) {
+    updateLayerDatas(main, false);
+    map.setLayoutProperty(sublayer, "visibility", "none");
+  } else {
+    updateLayerDatas(main, true);
+    map.setLayoutProperty(sublayer, "visibility", "visible");
+  }
+}
+
+function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
+  if (isActive === 1) {
+    mainLayerInputs.forEach(anInput => {
+      anInput.checked = false;
+      updateLayerDatas(mainLayerName, false);
+      map.setLayoutProperty(anInput.id, "visibility", "none");
+    })
+  } else {
+    mainLayerInputs.forEach(anInput => {
+      anInput.checked = true;
+      updateLayerDatas(mainLayerName, true);
+      map.setLayoutProperty(anInput.id, "visibility", "visible");
+    })
+  }
+}
+
+function toggleMainLayer(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const clickedLayer = e.target.id;
+  if (clickedLayer === 'oil-pipelines') {
+    toggleMainLayerHelper(isOilActive, clickedLayer, oilSubLayers);
+  }
+  else if (clickedLayer === 'gas-pipelines') {
+    toggleMainLayerHelper(isGasActive, clickedLayer, gasSubLayers);
+  }
+  else if (clickedLayer === 'conflicted-zones') {
+    if (isZoneActive === 0) {
+      this.className = "active";
+      isZoneActive = 1;
+      map.setLayoutProperty(mapIds['conflicted-zones'][0], "visibility", "visible");
+    } else {
+      this.className = "";
+      isZoneActive = 0;
+      map.setLayoutProperty(mapIds['conflicted-zones'][0], "visibility", "none");
+    }
+  }
+}
+
+
 // ############ MAIN WORKFLOW #############
+
+oilSubLayers.forEach(layer => {
+  layer.addEventListener('input', () => {
+    manageSublayers(layer);
+  });
+})
+
+gasSubLayers.forEach(layer => {
+  layer.addEventListener('input', () => {
+    manageSublayers(layer);
+  });
+})
+
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
-    changeStyle(layer);
+    map.setStyle(layer.target.id);
+    isChangeStyle += 1;
   });
+});
+
+map.on("load", () => {
+  currentLayer = map.style._layers;
+  Object.values(mapIds).forEach(value => {
+    value.forEach(layer => {
+      map.setLayoutProperty(layer, "visibility", "visible");
+    })
+  })
 });
 
 map.on("idle", () => {
   allLayers.forEach((layer) => {
-    layer.addEventListener("click", toggleLayer);
-    // console.log("idle");
+    layer.addEventListener("click", toggleMainLayer);
+    console.log("idle");
   });
 
   // if the map has changed style, load
   // previous styles layers
   if (isChangeStyle === 1) {
     mapIds.forEach((layer) => {
-      const prevVis = prevLayers[`${layer}`].visibility;
+      const prevVis = currentLayer[`${layer}`].visibility;
       map.setLayoutProperty(layer, "visibility", prevVis);
     });
+    currentLayer = map.style._layers;
     isChangeStyle = 0;
   }
 });
 
-const legendsInputs = document.querySelectorAll(".legends-inputs input");
 
 legendsInputs.forEach((input) => {
   input.addEventListener("click", updateLegends);
@@ -108,5 +220,3 @@ map.on("mouseenter", "conflicted-zones", () => {
 map.on("mouseleave", "conflicted-zones", () => {
   map.getCanvas().style.cursor = "";
 });
-
-// ##############
