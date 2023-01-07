@@ -103,7 +103,9 @@ function updateLayerDatas(main, isAdd) {
   }
 }
 
-function manageSublayers(aSubLayer) {
+function manageSublayers(aSubLayer, e) {
+  // e.preventDefault();
+  e.stopPropagation();
   const sublayer = aSubLayer.id;
   const main = aSubLayer.parentElement.parentElement.getAttribute('mainLayer');
   const visibility = map.getLayoutProperty(sublayer, "visibility");
@@ -133,9 +135,9 @@ function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
 }
 
 function toggleMainLayer(e) {
-  loading.classList.remove('hide');
   e.preventDefault();
   e.stopPropagation();
+  loading.classList.remove('hide');
   const clickedLayer = e.target.id;
   if (clickedLayer === 'oil-pipelines') {
     toggleMainLayerHelper(isOilActive, clickedLayer, oilSubLayers);
@@ -159,13 +161,20 @@ function toggleMainLayer(e) {
 
 // ############ MAIN WORKFLOW #############
 
-viewInputs.forEach((input) => {
-  input.addEventListener("click", (layer) => {
+oilSubLayers.forEach(layer => {
+  layer.addEventListener('click', (e) => {
     loading.classList.remove('hide');
-    map.setStyle(layer.target.id);
-    isChangeStyle = 1;
+    console.log(layer);
+    manageSublayers(layer, e);
   });
-});
+})
+
+gasSubLayers.forEach(layer => {
+  layer.addEventListener('click', (e) => {
+    loading.classList.remove('hide');
+    manageSublayers(layer, e);
+  });
+})
 
 map.on("load", () => {
   loading.classList.remove('hide');
@@ -182,19 +191,17 @@ map.on("idle", () => {
     layer.addEventListener("click", toggleMainLayer);
   });
 
-  oilSubLayers.forEach(layer => {
-    layer.addEventListener('input', () => {
-      loading.classList.remove('hide');
-      manageSublayers(layer);
-    });
-  })
+  legendsInputs.forEach((input) => {
+    input.addEventListener("click", updateLegends);
+  });
   
-  gasSubLayers.forEach(layer => {
-    layer.addEventListener('input', () => {
+  viewInputs.forEach((input) => {
+    input.addEventListener("click", (layer) => {
       loading.classList.remove('hide');
-      manageSublayers(layer);
+      map.setStyle(layer.target.id);
+      isChangeStyle = 1;
     });
-  })
+  });
 
   // if the map has changed style, load
   // previous styles layers
@@ -210,11 +217,6 @@ map.on("idle", () => {
   }
   console.log("idle");
   loading.classList.add('hide');
-});
-
-
-legendsInputs.forEach((input) => {
-  input.addEventListener("click", updateLegends);
 });
 
 // add popup features
