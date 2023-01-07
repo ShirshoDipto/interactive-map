@@ -14,14 +14,14 @@
     <div id="map"></div>
 
 
-    <div id="map-styles">
+    <div id="map-styles" class="hide">
         <input id="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7" type="radio" name="jtoggle" value="monochrome" checked>
         <label for="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7">Monochrome (Default)</label>
         <input id="mapbox://styles/shirshodipto/clcluk93l003z15oed6tkuwfo" type="radio" name="jtoggle" value="satellite">
         <label for="mapbox://styles/shirshodipto/clcluk93l003z15oed6tkuwfo">Satellite View</label>
     </div>
 
-    <nav id="layers">
+    <nav id="layers" class="hide">
         <a href="#" class="active" id="conflicted-zones">Conflicted Zones</a>
         <a href="#" class="active" id="oil-pipelines">Oil Pipelines</a>
         <a href="#" class="active" id="gas-pipelines">Gas Pipelines</a>
@@ -29,7 +29,7 @@
 
 
     <!-- conflict zone details  -->
-    <div class="conflict-zones-detail" dataId="conflict-legend">
+    <div class="conflict-zones-detail hide" dataId="conflict-legend">
         <div class="header">
             Years since conflict began
         </div>
@@ -165,7 +165,7 @@
         </div>
     </div>
 
-    <div id="show-legends">
+    <div id="show-legends" class="hide">
         <div class="legend-header">Show Legends & Additional Options</div>
         <div class="legends-inputs">
             <input id="conflict-legend" type="radio" name="rtoggle" value="conflict" checked>
@@ -175,12 +175,6 @@
             <input id="gas-legend" type="radio" name="rtoggle" value="gas">
             <label for="gas-legend">Gas Pipelines</label>
         </div>
-    </div>
-
-
-    <div class="pipelines-menu" id="oil-pipelines-menu">
-        <div class="test1">testting disposition</div>
-        <div class="test2">testting another disposition testing</div>
     </div>
 
     <div class="copyright"><p>Copyright &COPY; <a href="https://ieschatology.org/" target="_blank">Online Institute of Islamic Eschatology</a></p></div>

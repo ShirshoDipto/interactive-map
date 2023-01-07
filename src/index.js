@@ -1,9 +1,13 @@
 import mapboxgl from "mapbox-gl";
 import createConflictPopUp from "./popUp";
 
+const layers = document.getElementById('layers');
 const allLayers = document.querySelectorAll("#layers a");
 const viewInputs = document.querySelectorAll("#map-styles input");
+const mapStylesDiv = document.querySelector('#map-styles');
+const showLegends = document.querySelector('#show-legends');
 const legendsInputs = document.querySelectorAll(".legends-inputs input");
+const conflictZonesLegends = document.querySelector('.conflict-zones-detail');
 const oilSubLayers = document.querySelectorAll("#oil-linestrings div input");
 const gasSubLayers = document.querySelectorAll("#gas-linestrings div input");
 const loading = document.querySelector(".loading");
@@ -101,9 +105,7 @@ function updateLayerDatas(main, isAdd) {
   }
 }
 
-function manageSublayers(aSubLayer, e) {
-  // e.preventDefault();
-  e.stopPropagation();
+function manageSublayers(aSubLayer) {
   const sublayer = aSubLayer.id;
   const main = aSubLayer.parentElement.parentElement.getAttribute("mainLayer");
   const visibility = map.getLayoutProperty(sublayer, "visibility");
@@ -165,9 +167,9 @@ function toggleMainLayer(e) {
 // ############ MAIN WORKFLOW #############
 
 oilSubLayers.forEach((layer) => {
-  layer.addEventListener("click", (e) => {
+  layer.addEventListener("click", () => {
     loading.classList.remove("hide");
-    manageSublayers(layer, e);
+    manageSublayers(layer);
   });
 });
 
@@ -176,6 +178,22 @@ gasSubLayers.forEach((layer) => {
     loading.classList.remove("hide");
     manageSublayers(layer, e);
   });
+});
+
+viewInputs.forEach((input) => {
+  input.addEventListener("click", (layer) => {
+    loading.classList.remove("hide");
+    map.setStyle(layer.target.id);
+    isChangeStyle = 1;
+  });
+});
+
+allLayers.forEach((layer) => {
+  layer.addEventListener("click", toggleMainLayer);
+});
+
+legendsInputs.forEach((input) => {
+  input.addEventListener("click", updateLegends);
 });
 
 map.on("load", () => {
@@ -189,21 +207,11 @@ map.on("load", () => {
 });
 
 map.on("idle", () => {
-  allLayers.forEach((layer) => {
-    layer.addEventListener("click", toggleMainLayer);
-  });
 
-  legendsInputs.forEach((input) => {
-    input.addEventListener("click", updateLegends);
-  });
-
-  viewInputs.forEach((input) => {
-    input.addEventListener("click", (layer) => {
-      loading.classList.remove("hide");
-      map.setStyle(layer.target.id);
-      isChangeStyle = 1;
-    });
-  });
+  mapStylesDiv.className = '';
+  showLegends.className = '';
+  layers.className = '';
+  conflictZonesLegends.classList.remove('hide');
 
   // if the map has changed style, load
   // previous styles layers
@@ -217,8 +225,8 @@ map.on("idle", () => {
     });
     currentLayer = map.style._layers;
   }
-  console.log("idle");
   loading.classList.add("hide");
+  console.log("idle");
 });
 
 // add popup features
