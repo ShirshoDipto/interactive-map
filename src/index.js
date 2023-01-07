@@ -219,7 +219,9 @@ map.on("idle", () => {
   mapStylesDiv.className = "";
   showLegends.className = "";
   layers.className = "";
-  conflictZonesLegends.classList.remove("hide");
+  if (legendsInputs[0].checked === true) {
+    conflictZonesLegends.classList.remove("hide");
+  }
 
   // if the map has changed style, load
   // previous styles layers
