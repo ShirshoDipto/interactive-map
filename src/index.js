@@ -6,6 +6,7 @@ const viewInputs = document.querySelectorAll("#map-styles input");
 const legendsInputs = document.querySelectorAll(".legends-inputs input");
 const oilSubLayers = document.querySelectorAll('#oil-linestrings div input');
 const gasSubLayers = document.querySelectorAll('#gas-linestrings div input');
+const loading = document.querySelector('.loading');
 let currentLayer;
 let isChangeStyle = 0;
 let isOilActive = 1;
@@ -132,6 +133,7 @@ function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
 }
 
 function toggleMainLayer(e) {
+  loading.classList.remove('hide');
   e.preventDefault();
   e.stopPropagation();
   const clickedLayer = e.target.id;
@@ -157,26 +159,16 @@ function toggleMainLayer(e) {
 
 // ############ MAIN WORKFLOW #############
 
-oilSubLayers.forEach(layer => {
-  layer.addEventListener('input', () => {
-    manageSublayers(layer);
-  });
-})
-
-gasSubLayers.forEach(layer => {
-  layer.addEventListener('input', () => {
-    manageSublayers(layer);
-  });
-})
-
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
+    loading.classList.remove('hide');
     map.setStyle(layer.target.id);
     isChangeStyle = 1;
   });
 });
 
 map.on("load", () => {
+  loading.classList.remove('hide');
   currentLayer = map.style._layers;
   Object.values(mapIds).forEach(value => {
     value.forEach(layer => {
@@ -188,8 +180,21 @@ map.on("load", () => {
 map.on("idle", () => {
   allLayers.forEach((layer) => {
     layer.addEventListener("click", toggleMainLayer);
-    console.log("idle");
   });
+
+  oilSubLayers.forEach(layer => {
+    layer.addEventListener('input', () => {
+      loading.classList.remove('hide');
+      manageSublayers(layer);
+    });
+  })
+  
+  gasSubLayers.forEach(layer => {
+    layer.addEventListener('input', () => {
+      loading.classList.remove('hide');
+      manageSublayers(layer);
+    });
+  })
 
   // if the map has changed style, load
   // previous styles layers
@@ -203,6 +208,8 @@ map.on("idle", () => {
     });
     currentLayer = map.style._layers;
   }
+  console.log("idle");
+  loading.classList.add('hide');
 });
 
 
