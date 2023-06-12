@@ -1,5 +1,5 @@
 {
-  "name": "ustadh-project",
+  "name": "interactive-map",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
@@ -15,10 +15,11 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ShirshoDipto/ustadh-project/issues"
+    "url": "https://github.com/ShirshoDipto/interactive-map/issues"
   },
-  "homepage": "https://github.com/ShirshoDipto/ustadh-project#readme",
+  "homepage": "https://github.com/ShirshoDipto/interactive-map#readme",
   "devDependencies": {
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.30.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",

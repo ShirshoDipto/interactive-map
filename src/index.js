@@ -1,5 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import createConflictPopUp from "./popUp";
+import { mapIds } from "./data";
 
 const layers = document.getElementById("layers");
 const allLayers = document.querySelectorAll("#layers a");
@@ -11,7 +12,8 @@ const conflictZonesLegends = document.querySelector(".conflict-zones-detail");
 const oilSubLayers = document.querySelectorAll("#oil-linestrings div input");
 const gasSubLayers = document.querySelectorAll("#gas-linestrings div input");
 const loading = document.querySelector(".loading");
-const copyrightChilds = document.querySelectorAll('.copyright *');
+const copyrightChilds = document.querySelectorAll(".copyright *");
+
 let currentLayer;
 let isChangeStyle = 0;
 let isOilActive = 1;
@@ -19,32 +21,8 @@ let activeOilSublayers = 8;
 let activeGasSublayers = 8;
 let isGasActive = 1;
 let isZoneActive = 1;
-const mapIds = {
-  "conflicted-zones": ["conflicted-zones"],
-  "oil-pipelines": [
-    "oil-pipelines-operating",
-    "oil-pipelines-retired",
-    "oil-pipelines-cancelled",
-    "oil-pipelines-construction",
-    "oil-pipelines-shelved",
-    "oil-pipelines-proposed",
-    "oil-pipelines-mothballed",
-    "oil-pipelines-idle",
-  ],
-  "gas-pipelines": [
-    "gas-pipelines-operating",
-    "gas-pipelines-retired",
-    "gas-pipelines-cancelled",
-    "gas-pipelines-construction",
-    "gas-pipelines-shelved",
-    "gas-pipelines-proposed",
-    "gas-pipelines-mothballed",
-    "gas-pipelines-idle",
-  ],
-};
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoic2hpcnNob2RpcHRvIiwiYSI6ImNsYnlraHR4dDB1Njgzb2xobHZrMG1kY2gifQ.ndu_e63-o0H8MAWnvQ3EWA";
+mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7",
@@ -140,6 +118,7 @@ function toggleMainLayer(e) {
   e.stopPropagation();
   loading.classList.remove("hide");
   const clickedLayer = e.target.id;
+
   if (clickedLayer === "oil-pipelines") {
     toggleMainLayerHelper(isOilActive, clickedLayer, oilSubLayers);
   } else if (clickedLayer === "gas-pipelines") {
@@ -184,14 +163,14 @@ gasSubLayers.forEach((layer) => {
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
     loading.classList.remove("hide");
-    copyrightChilds.forEach(child => {
-      if (input.value === 'monochrome') {
-        child.style.color = 'black';
+    copyrightChilds.forEach((child) => {
+      if (input.value === "monochrome") {
+        child.style.color = "black";
       }
-      if (input.value === 'satellite') {
-        child.style.color = 'white';
+      if (input.value === "satellite") {
+        child.style.color = "white";
       }
-    })
+    });
     map.setStyle(layer.target.id);
     isChangeStyle = 1;
   });
