@@ -25,6 +25,8 @@ Project description goes here.
 
 ## Data Sources:
 
+Files are available at `dist/csvFiles`
+
 - Conflicted Zones: https://carto.com
 - Oil and Gas Pipelines: https://globalenergymonitor.org
 
