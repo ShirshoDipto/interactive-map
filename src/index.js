@@ -214,6 +214,7 @@ map.on("idle", () => {
         map.setLayoutProperty(sublayer, "visibility", prevVis);
       });
     });
+
     currentLayer = map.style._layers;
   }
 
