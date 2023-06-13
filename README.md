@@ -4,6 +4,8 @@ Project description goes here.
 
 [View Live](https://shirshodipto.github.io/interactive-map)
 
+![](./dist/gifs/interactiveMap2.gif)
+
 ## Technologies Used
 
 - Javascript
