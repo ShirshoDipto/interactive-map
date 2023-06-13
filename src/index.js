@@ -163,6 +163,7 @@ gasSubLayers.forEach((layer) => {
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
     loading.classList.remove("hide");
+
     copyrightChilds.forEach((child) => {
       if (input.value === "monochrome") {
         child.style.color = "black";
@@ -171,6 +172,7 @@ viewInputs.forEach((input) => {
         child.style.color = "white";
       }
     });
+
     map.setStyle(layer.target.id);
     isChangeStyle = 1;
   });
@@ -198,7 +200,7 @@ map.on("idle", () => {
   mapStylesDiv.className = "";
   showLegends.className = "";
   layers.className = "";
-  if (legendsInputs[0].checked === true) {
+  if (legendsInputs[0].checked) {
     conflictZonesLegends.classList.remove("hide");
   }
 
@@ -214,6 +216,7 @@ map.on("idle", () => {
     });
     currentLayer = map.style._layers;
   }
+
   loading.classList.add("hide");
   console.log("idle");
 });
