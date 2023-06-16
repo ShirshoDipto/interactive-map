@@ -15,7 +15,7 @@ Project description goes here.
 - [Mapbox GL](https://www.mapbox.com)
 - [Mapbox Studio](https://www.mapbox.com)
 
-## Features & Highlights
+## Features
 
 1. Toggle main layers from top right.
 2. Toggle sub layers from addtional options.
@@ -25,7 +25,7 @@ Project description goes here.
 
 ## Data Sources:
 
-Files can be viewed from `dist/csvFiles` in the repository
+Files can be viewed from `/dist/csvFiles` in the repository
 
 - Conflicted Zones: https://carto.com
 - Oil and Gas Pipelines: https://globalenergymonitor.org
