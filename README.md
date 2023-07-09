@@ -17,11 +17,11 @@ This app utilizes Mapbox to provide an interactive and intuitive data visualizat
 
 ## Key Features
 
-**1. Interactivity:** Explore through an interactive map interface, allowing users to zoom in, pan, tilt, and navigate effortlessly.
+1. **Interactivity:** Explore through an interactive map interface, allowing users to zoom in, pan, tilt, and navigate effortlessly.
 
-**2. Customizable Layers:** Toggle between different layers and sublayers to focus on specific regions of interest.
+2. **Customizable Layers:** Toggle between different layers and sublayers to focus on specific regions of interest.
 
-**3. Rich Information Display:** Access detailed information by interacting with the map elements, such as conflicted zone details, summary of the pipelines.
+3. **Rich Information Display:** Access detailed information by interacting with the map elements, such as conflicted zone details, summary of the pipelines.
 
 ## Data Sources:
 
