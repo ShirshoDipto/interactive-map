@@ -1,6 +1,6 @@
 # Interactive Data Visualization Map
 
-This app utilizes Mapbox to provide an interactive and intuitive data visualization map focused on conflicted zones and energy supplies around the world. The goal of this app is to assist in understanding and analyzing various global policies by presenting conflicted zones, oil pipelines, and gas pipelines around the world in a visually engaging format.
+This app utilizes Mapbox to provide an interactive and intuitive data visualization map focused on conflict zones and energy supplies around the world. The goal of this app is to assist in understanding and analyzing various global policies by presenting conflict zones, oil pipelines, and gas pipelines around the world in a visually engaging format.
 
 [View Live](https://shirshodipto.github.io/interactive-map)
 
@@ -21,13 +21,13 @@ This app utilizes Mapbox to provide an interactive and intuitive data visualizat
 
 2. **Customizable Layers:** Toggle between different layers and sublayers to focus on specific regions of interest.
 
-3. **Rich Information Display:** Access detailed information by interacting with the map elements, such as conflicted zone details, summary of the pipelines.
+3. **Rich Information Display:** Access detailed information by interacting with the map elements, such as conflict zone details, summary of the pipelines.
 
 ## Data Sources:
 
 Files can be viewed from `/dist/csvFiles` in the repository
 
-- Conflicted Zones: https://carto.com
+- Conflict Zones: https://carto.com
 - Oil and Gas Pipelines: https://globalenergymonitor.org
 
 ## Methodology
