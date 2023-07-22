@@ -21,6 +21,7 @@ let activeOilSublayers = 8;
 let activeGasSublayers = 8;
 let isGasActive = 1;
 let isZoneActive = 1;
+console.log("checking if the branch is working as expected...");
 
 mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 const map = new mapboxgl.Map({
