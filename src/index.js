@@ -59,22 +59,18 @@ function updateMainLayer(mainLayer) {
   mainLayerDOM.className = isAllInactive ? "" : "active";
 }
 
-function toggleLayerHelper(data, type, DOMElement) {
+function toggleLayerHelper(data, type, status, DOMElement) {
   // Update the data
-  data.isActive = !data.isActive;
+  data.isActive = status;
 
   // change map appearance
-  map.setLayoutProperty(
-    data.id,
-    "visibility",
-    data.isActive ? "visible" : "none"
-  );
+  map.setLayoutProperty(data.id, "visibility", status ? "visible" : "none");
 
   // toggle the dom element
   if (type === "main") {
-    DOMElement.className = data.isActive ? "active" : "";
+    DOMElement.className = status ? "active" : "";
   } else {
-    DOMElement.checked = data.isActive;
+    DOMElement.checked = status;
   }
 }
 
@@ -83,7 +79,7 @@ function toggleSubLayer() {
   const mainLayer = layerData[this.getAttribute("mainLayerId")];
   const subLayer = mainLayer.subLayers.find((layer) => layer.id === subLayerId);
 
-  toggleLayerHelper(subLayer, "sub", this);
+  toggleLayerHelper(subLayer, "sub", !subLayer.isActive, this);
   updateMainLayer(mainLayer);
 }
 
@@ -91,12 +87,15 @@ function toggleMainLayer() {
   const mainLayer = layerData[this.getAttribute("id")];
 
   if (mainLayer.subLayers.length > 0) {
+    mainLayer.isActive = !mainLayer.isActive;
     mainLayer.subLayers.forEach((layer) => {
       const subLayerDOM = document.getElementById(layer.id);
-      toggleLayerHelper(layer, "sub", subLayerDOM);
+      toggleLayerHelper(layer, "sub", mainLayer.isActive, subLayerDOM);
     });
+
+    this.className = mainLayer.isActive ? "active" : "";
   } else {
-    toggleLayerHelper(mainLayer, "main", this);
+    toggleLayerHelper(mainLayer, "main", !mainLayer.isActive, this);
   }
 }
 
