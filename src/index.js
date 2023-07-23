@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import createConflictPopUp from "./popUp";
-import { mapIds } from "./data";
+import { layerData } from "./data";
 
 const mainLayerOptions = document.getElementById("main-layer-options");
 const mainLayerButtons = document.querySelectorAll("#main-layer-options a");
@@ -14,15 +14,6 @@ const gasSubLayers = document.querySelectorAll("#gas-linestrings div input");
 const loading = document.querySelector(".loading");
 const copyrightChilds = document.querySelectorAll(".copyright *");
 
-const subLayerButtons = document.querySelectorAll(
-  "[mainLayerId='gas-pipelines']"
-);
-subLayerButtons.forEach((button) => {
-  button.addEventListener("click", function (e) {
-    console.log(this.checked);
-  });
-});
-
 let currentLayer;
 let isChangeStyle = 0;
 let isOilActive = 1;
@@ -30,17 +21,6 @@ let activeOilSublayers = 8;
 let activeGasSublayers = 8;
 let isGasActive = 1;
 let isZoneActive = 1;
-
-function checkIsAllToggled(layerName, isAllActive) {
-  const untoggledOne = mapIds[layerName].subLayers.find(
-    (id) => id.isActive === isAllActive
-  );
-
-  return untoggledOne;
-}
-
-const status = checkIsAllToggled("gas-pipelines", false);
-console.log(status);
 
 mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 const map = new mapboxgl.Map({
@@ -100,6 +80,14 @@ function updateLayerDatas(main, isAdd) {
       }
     }
   }
+}
+
+function checkIsAllToggled(layerName, isAllActive) {
+  const untoggledOne = mapIds[layerName].subLayers.find(
+    (id) => id.isActive === isAllActive
+  );
+
+  return untoggledOne;
 }
 
 function manageSublayers(aSubLayer) {
@@ -163,7 +151,7 @@ function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
 // }
 
 function toggleMainLayer() {
-  const mainLayer = mapIds[this.getAttribute("id")];
+  const mainLayer = layerData[this.getAttribute("id")];
   if (mainLayer.subLayers.length > 0) {
     // get all the sublayers
     // change the data of the main Layer
@@ -171,10 +159,11 @@ function toggleMainLayer() {
   } else {
     mainLayer.isActive = !mainLayer.isActive;
     map.setLayoutProperty(
-      mainLayer.mainLayerId,
+      mainLayer.id,
       "visibility",
       mainLayer.isActive ? "visible" : "none"
     );
+
     this.className = mainLayer.isActive ? "active" : "";
   }
 }
@@ -224,19 +213,19 @@ legendsInputs.forEach((input) => {
 map.on("load", () => {
   loading.classList.remove("hide");
   currentLayer = map.style._layers;
-  Object.values(mapIds).forEach((id) => {
-    if (id.subLayers.length === 0) {
+  Object.values(layerData).forEach((layer) => {
+    if (layer.subLayers.length === 0) {
       map.setLayoutProperty(
-        id.mainLayerId,
+        layer.id,
         "visibility",
-        id.isActive ? "visible" : "none"
+        layer.isActive ? "visible" : "none"
       );
     } else {
-      id.subLayers.forEach((layer) => {
+      layer.subLayers.forEach((subLayer) => {
         map.setLayoutProperty(
-          layer.subLayerId,
+          subLayer.id,
           "visibility",
-          layer.isActive ? "visible" : "none"
+          subLayer.isActive ? "visible" : "none"
         );
       });
     }

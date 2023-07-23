@@ -1,84 +1,84 @@
-export const mapIds = {
+export const layerData = {
   "conflicted-zones": {
+    id: "conflicted-zones",
     isActive: true,
-    mainLayerId: "conflicted-zones",
     subLayers: [],
   },
 
   "oil-pipelines": {
+    id: "oil-pipelines",
     isActive: true,
-    mainLayerId: "oil-pipelines",
     subLayers: [
       {
+        id: "oil-pipelines-operating",
         isActive: true,
-        subLayerId: "oil-pipelines-operating",
       },
       {
         isActive: true,
-        subLayerId: "oil-pipelines-retired",
+        id: "oil-pipelines-retired",
       },
       {
+        id: "oil-pipelines-cancelled",
         isActive: true,
-        subLayerId: "oil-pipelines-cancelled",
       },
       {
+        id: "oil-pipelines-construction",
         isActive: true,
-        subLayerId: "oil-pipelines-construction",
       },
       {
+        id: "oil-pipelines-shelved",
         isActive: true,
-        subLayerId: "oil-pipelines-shelved",
       },
       {
+        id: "oil-pipelines-proposed",
         isActive: true,
-        subLayerId: "oil-pipelines-proposed",
       },
       {
+        id: "oil-pipelines-mothballed",
         isActive: true,
-        subLayerId: "oil-pipelines-mothballed",
       },
       {
+        id: "oil-pipelines-idle",
         isActive: true,
-        subLayerId: "oil-pipelines-idle",
       },
     ],
   },
 
   "gas-pipelines": {
+    id: "gas-pipelines",
     isActive: true,
-    mainLayerId: "gas-pipelines",
     subLayers: [
       {
+        id: "gas-pipelines-operating",
         isActive: true,
-        subLayerId: "gas-pipelines-operating",
       },
       {
+        id: "gas-pipelines-retired",
         isActive: true,
-        subLayerId: "gas-pipelines-retired",
       },
       {
+        id: "gas-pipelines-cancelled",
         isActive: true,
-        subLayerId: "gas-pipelines-cancelled",
       },
       {
+        id: "gas-pipelines-construction",
         isActive: true,
-        subLayerId: "gas-pipelines-construction",
       },
       {
+        id: "gas-pipelines-shelved",
         isActive: true,
-        subLayerId: "gas-pipelines-shelved",
       },
       {
+        id: "gas-pipelines-proposed",
         isActive: true,
-        subLayerId: "gas-pipelines-proposed",
       },
       {
+        id: "gas-pipelines-mothballed",
         isActive: true,
-        subLayerId: "gas-pipelines-mothballed",
       },
       {
+        id: "gas-pipelines-idle",
         isActive: true,
-        subLayerId: "gas-pipelines-idle",
       },
     ],
   },
