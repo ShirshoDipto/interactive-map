@@ -4,6 +4,7 @@ import { layerData } from "./data";
 
 const mainLayerOptions = document.getElementById("main-layer-options");
 const mainLayerButtons = document.querySelectorAll("#main-layer-options a");
+const subLayerButtons = document.querySelectorAll(".labels-details div input");
 const viewInputs = document.querySelectorAll("#map-styles input");
 const mapStylesDiv = document.querySelector("#map-styles");
 const showLegends = document.querySelector("#show-legends");
@@ -119,70 +120,51 @@ function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
   }
 }
 
-// function toggleMainLayer(e) {
-//   e.preventDefault();
-//   e.stopPropagation();
-//   loading.classList.remove("hide");
-//   const clickedLayer = e.target.id;
+function toggleLayer(data) {
+  map.setLayoutProperty(
+    data.id,
+    "visibility",
+    data.isActive ? "visible" : "none"
+  );
+}
 
-//   if (clickedLayer === "oil-pipelines") {
-//     toggleMainLayerHelper(isOilActive, clickedLayer, oilSubLayers);
-//   } else if (clickedLayer === "gas-pipelines") {
-//     toggleMainLayerHelper(isGasActive, clickedLayer, gasSubLayers);
-//   } else if (clickedLayer === "conflicted-zones") {
-//     if (isZoneActive === 0) {
-//       this.className = "active";
-//       isZoneActive = 1;
-//       map.setLayoutProperty(
-//         mapIds["conflicted-zones"][0],
-//         "visibility",
-//         "visible"
-//       );
-//     } else {
-//       this.className = "";
-//       isZoneActive = 0;
-//       map.setLayoutProperty(
-//         mapIds["conflicted-zones"][0],
-//         "visibility",
-//         "none"
-//       );
-//     }
-//   }
+// function toggleSubLayerStatus(subLayers) {
+//   subLayers.forEach((layer) => {
+//     layer.isActive = !layer.isActive;
+//   });
 // }
+
+function toggleSubLayer() {
+  // change sublayer data
+  const mainLayer = layerData[this.getAttribute("mainLayerId")];
+  console.log(mainLayer);
+  // change map
+  // change sublayer dom
+  // check is all toggled
+  //  if all toggled
+  //    change main layer data
+  //    change main Layer dom
+}
 
 function toggleMainLayer() {
   const mainLayer = layerData[this.getAttribute("id")];
-  if (mainLayer.subLayers.length > 0) {
-    // get all the sublayers
-    // change the data of the main Layer
-    // change the inputs of the sublayers
-  } else {
-    mainLayer.isActive = !mainLayer.isActive;
-    map.setLayoutProperty(
-      mainLayer.id,
-      "visibility",
-      mainLayer.isActive ? "visible" : "none"
-    );
+  mainLayer.isActive = !mainLayer.isActive;
 
-    this.className = mainLayer.isActive ? "active" : "";
+  if (mainLayer.subLayers.length > 0) {
+    mainLayer.subLayers.forEach((layer) => {
+      layer.isActive = !layer.isActive;
+      toggleLayer(layer);
+      const subLayerDOM = document.getElementById(layer.id);
+      subLayerDOM.checked = layer.isActive;
+    });
+  } else {
+    toggleLayer(mainLayer);
   }
+
+  this.className = mainLayer.isActive ? "active" : "";
 }
 
 // ############ MAIN WORKFLOW #############
-
-// oilSubLayers.forEach((layer) => {
-//   layer.addEventListener("click", () => {
-//     loading.classList.remove("hide");
-//     manageSublayers(layer);
-//   });
-// });
-
-// gasSubLayers.forEach((layer) => {
-//   layer.addEventListener("click", (e) => {
-//     loading.classList.remove("hide");
-//     manageSublayers(layer, e);
-//   });
-// });
 
 viewInputs.forEach((input) => {
   input.addEventListener("click", (layer) => {
@@ -204,6 +186,10 @@ viewInputs.forEach((input) => {
 
 mainLayerButtons.forEach((layer) => {
   layer.addEventListener("click", toggleMainLayer);
+});
+
+subLayerButtons.forEach((layer) => {
+  layer.addEventListener("click", toggleSubLayer);
 });
 
 legendsInputs.forEach((input) => {

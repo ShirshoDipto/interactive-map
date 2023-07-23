@@ -164,8 +164,12 @@
 .labels-details div {
     display: flex;
     align-items: center;
-    /* justify-content: center; */
     gap: 5px;
+}
+
+.labels-details div label,
+.labels-details div input {
+    cursor: pointer;
 }
 
 #oil-linestrings {
