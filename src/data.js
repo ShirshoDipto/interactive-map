@@ -14,8 +14,8 @@ export const layerData = {
         isActive: true,
       },
       {
-        isActive: true,
         id: "oil-pipelines-retired",
+        isActive: true,
       },
       {
         id: "oil-pipelines-cancelled",

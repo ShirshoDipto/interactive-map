@@ -9,19 +9,11 @@ const viewInputs = document.querySelectorAll("#map-styles input");
 const mapStylesDiv = document.querySelector("#map-styles");
 const showLegends = document.querySelector("#show-legends");
 const legendsInputs = document.querySelectorAll(".legends-inputs input");
-const conflictZonesLegends = document.querySelector(".conflict-zones-detail");
-const oilSubLayers = document.querySelectorAll("#oil-linestrings div input");
-const gasSubLayers = document.querySelectorAll("#gas-linestrings div input");
 const loading = document.querySelector(".loading");
 const copyrightChilds = document.querySelectorAll(".copyright *");
 
 let currentLayer;
 let isChangeStyle = 0;
-let isOilActive = 1;
-let activeOilSublayers = 8;
-let activeGasSublayers = 8;
-let isGasActive = 1;
-let isZoneActive = 1;
 
 mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 const map = new mapboxgl.Map({
@@ -54,114 +46,58 @@ function displayPopUp(e) {
   new mapboxgl.Popup().setLngLat(coordinates).setDOMContent(div).addTo(map);
 }
 
-function updateLayerDatas(main, isAdd) {
-  const mainLayer = document.getElementById(main);
-  if (main === "oil-pipelines") {
-    if (isAdd) {
-      activeOilSublayers += 1;
-      mainLayer.className = "active";
-      isOilActive = 1;
-    } else {
-      activeOilSublayers -= 1;
-      if (activeOilSublayers === 0) {
-        mainLayer.className = "";
-        isOilActive = 0;
-      }
-    }
-  } else if (main === "gas-pipelines") {
-    if (isAdd) {
-      activeGasSublayers += 1;
-      mainLayer.className = "active";
-      isGasActive = 1;
-    } else {
-      activeGasSublayers -= 1;
-      if (activeGasSublayers === 0) {
-        mainLayer.className = "";
-        isGasActive = 0;
-      }
-    }
-  }
-}
-
-function checkIsAllToggled(layerName, isAllActive) {
-  const untoggledOne = mapIds[layerName].subLayers.find(
-    (id) => id.isActive === isAllActive
+function updateMainLayer(mainLayer) {
+  // check is all sublayer toggled
+  const isAllInactive = mainLayer.subLayers.every(
+    (layer) => layer.isActive === false
   );
 
-  return untoggledOne;
+  const mainLayerDOM = document.getElementById(mainLayer.id);
+  // Update mainlayer data
+  mainLayer.isActive = isAllInactive ? false : true;
+  // Update mainLayer dom
+  mainLayerDOM.className = isAllInactive ? "" : "active";
 }
 
-function manageSublayers(aSubLayer) {
-  const sublayer = aSubLayer.id;
-  const main = aSubLayer.parentElement.parentElement.getAttribute("mainLayer");
-  const visibility = map.getLayoutProperty(sublayer, "visibility");
-  if (visibility === "visible" || visibility === undefined) {
-    updateLayerDatas(main, false);
-    map.setLayoutProperty(sublayer, "visibility", "none");
-  } else {
-    updateLayerDatas(main, true);
-    map.setLayoutProperty(sublayer, "visibility", "visible");
-  }
-}
+function toggleLayerHelper(data, type, DOMElement) {
+  // Update the data
+  data.isActive = !data.isActive;
 
-function toggleMainLayerHelper(isActive, mainLayerName, mainLayerInputs) {
-  if (isActive === 1) {
-    mainLayerInputs.forEach((anInput) => {
-      anInput.checked = false;
-      updateLayerDatas(mainLayerName, false);
-      map.setLayoutProperty(anInput.id, "visibility", "none");
-    });
-  } else {
-    mainLayerInputs.forEach((anInput) => {
-      anInput.checked = true;
-      updateLayerDatas(mainLayerName, true);
-      map.setLayoutProperty(anInput.id, "visibility", "visible");
-    });
-  }
-}
-
-function toggleLayer(data) {
+  // change map appearance
   map.setLayoutProperty(
     data.id,
     "visibility",
     data.isActive ? "visible" : "none"
   );
+
+  // toggle the dom element
+  if (type === "main") {
+    DOMElement.className = data.isActive ? "active" : "";
+  } else {
+    DOMElement.checked = data.isActive;
+  }
 }
 
-// function toggleSubLayerStatus(subLayers) {
-//   subLayers.forEach((layer) => {
-//     layer.isActive = !layer.isActive;
-//   });
-// }
-
 function toggleSubLayer() {
-  // change sublayer data
+  const subLayerId = this.getAttribute("id");
   const mainLayer = layerData[this.getAttribute("mainLayerId")];
-  console.log(mainLayer);
-  // change map
-  // change sublayer dom
-  // check is all toggled
-  //  if all toggled
-  //    change main layer data
-  //    change main Layer dom
+  const subLayer = mainLayer.subLayers.find((layer) => layer.id === subLayerId);
+
+  toggleLayerHelper(subLayer, "sub", this);
+  updateMainLayer(mainLayer);
 }
 
 function toggleMainLayer() {
   const mainLayer = layerData[this.getAttribute("id")];
-  mainLayer.isActive = !mainLayer.isActive;
 
   if (mainLayer.subLayers.length > 0) {
     mainLayer.subLayers.forEach((layer) => {
-      layer.isActive = !layer.isActive;
-      toggleLayer(layer);
       const subLayerDOM = document.getElementById(layer.id);
-      subLayerDOM.checked = layer.isActive;
+      toggleLayerHelper(layer, "sub", subLayerDOM);
     });
   } else {
-    toggleLayer(mainLayer);
+    toggleLayerHelper(mainLayer, "main", this);
   }
-
-  this.className = mainLayer.isActive ? "active" : "";
 }
 
 // ############ MAIN WORKFLOW #############
@@ -223,6 +159,9 @@ map.on("idle", () => {
   showLegends.className = "";
   mainLayerOptions.className = "";
   if (legendsInputs[0].checked) {
+    const conflictZonesLegends = document.querySelector(
+      ".conflict-zones-detail"
+    );
     conflictZonesLegends.classList.remove("hide");
   }
 
