@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import createConflictPopUp from "./popUp";
-import { layerData } from "./data";
+import { layerData, mapStyles } from "./data";
 
 const mainLayerOptions = document.getElementById("main-layer-options");
 const mainLayerButtons = document.querySelectorAll("#main-layer-options a");
@@ -115,6 +115,8 @@ function toggleMenus(status) {
 }
 
 function changeMapStyle(e) {
+  if (mapStyles[e.target.value].isActive) return;
+
   loading.classList.remove("hide");
   toggleMenus(false);
   const copyrightChilds = document.querySelectorAll(".copyright *");
@@ -122,15 +124,18 @@ function changeMapStyle(e) {
   copyrightChilds.forEach((child) => {
     if (e.target.value === "monochrome") {
       child.style.color = "black";
-    }
-
-    if (e.target.value === "satellite") {
+    } else if (e.target.value === "satellite") {
       child.style.color = "white";
     }
   });
 
   map.setStyle(e.target.id);
   hasStyleChanged = true;
+
+  // Change the style data
+  Object.values(mapStyles).forEach((style) => {
+    style.isActive = this.id === style.id ? true : false;
+  });
 }
 
 function renderMapLayers() {

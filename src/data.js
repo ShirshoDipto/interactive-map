@@ -83,3 +83,14 @@ export const layerData = {
     ],
   },
 };
+
+export const mapStyles = {
+  Monochrome: {
+    id: "mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7",
+    isActive: true,
+  },
+  Satellite: {
+    id: "mapbox://styles/shirshodipto/clcluk93l003z15oed6tkuwfo",
+    isActive: false,
+  },
+};
