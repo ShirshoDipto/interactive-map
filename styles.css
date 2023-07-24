@@ -35,7 +35,7 @@
     position: absolute;
     top: 0; 
     bottom: 0; 
-    width: 100%; 
+    width: 100%;
 }
 
 #map-styles {
@@ -46,7 +46,7 @@
 }
 
 
-#layers {
+#main-layer-options {
     background: #fff;
     position: absolute;
     z-index: 1;
@@ -57,7 +57,7 @@
     box-shadow: 0px 5px 5px var(--shadow-color);
 }
 
-#layers a {
+#main-layer-options a {
     font-size: 13px;
     color: #404040;
     display: block;
@@ -69,21 +69,21 @@
     text-align: center;
 }
 
-#layers a:last-child {
+#main-layer-options a:last-child {
     border: none;
 }
 
-#layers a:hover {
+#main-layer-options a:hover {
     background-color: #f8f8f8;
     color: #404040;
 }
      
-#layers a.active {
+#main-layer-options a.active {
     background-color: #3887be;
     color: #ffffff;
 }
      
-#layers a.active:hover {
+#main-layer-options a.active:hover {
     background: #3074a4;
 }
 
@@ -165,6 +165,11 @@
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.labels-details div label,
+.labels-details div input {
+    cursor: pointer;
 }
 
 #oil-linestrings {
