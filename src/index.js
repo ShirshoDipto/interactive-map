@@ -21,6 +21,29 @@ const map = new mapboxgl.Map({
   zoom: 1.2,
 });
 
+function updateLegends(e) {
+  const legendName = e.target.id;
+  const allLegends = document.querySelectorAll("div[dataId]");
+  allLegends.forEach((legend) => {
+    if (legend.getAttribute("dataId") !== legendName) {
+      legend.classList.add("hide");
+    } else {
+      legend.classList.remove("hide");
+    }
+  });
+}
+
+function displayPopUp(e) {
+  const coordinates = e.features[0].geometry.coordinates.slice();
+  const div = createConflictPopUp(e.features[0].properties);
+
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  }
+
+  new mapboxgl.Popup().setLngLat(coordinates).setDOMContent(div).addTo(map);
+}
+
 function updateMainLayer(mainLayer) {
   // check is all sublayer toggled
   const isAllInactive = mainLayer.subLayers.every(
@@ -50,19 +73,64 @@ function toggleLayerHelper(data, type, status, DOMElement) {
   }
 }
 
+function toggleSubLayer() {
+  const mainLayer = layerData[this.getAttribute("mainLayerId")];
+  const subLayer = mainLayer.subLayers.find((layer) => layer.id === this.id);
+
+  toggleLayerHelper(subLayer, "sub", !subLayer.isActive, this);
+  updateMainLayer(mainLayer);
+}
+
+function toggleMainLayer() {
+  const mainLayer = layerData[this.id];
+
+  if (mainLayer.subLayers.length > 0) {
+    mainLayer.isActive = !mainLayer.isActive;
+    mainLayer.subLayers.forEach((layer) => {
+      const subLayerDOM = document.getElementById(layer.id);
+      toggleLayerHelper(layer, "sub", mainLayer.isActive, subLayerDOM);
+    });
+
+    this.className = mainLayer.isActive ? "active" : "";
+  } else {
+    toggleLayerHelper(mainLayer, "main", !mainLayer.isActive, this);
+  }
+}
+
 function toggleMenus(status) {
   showLegends.className = status ? "" : "hide";
   mainLayerOptions.className = status ? "" : "hide";
 
   legendsInputs.forEach((input) => {
-    const legend = document.querySelector(`[dataId=${input.id}]`);
+    const legends = document.querySelectorAll(`[dataId=${input.id}]`);
 
-    if (status && input.checked) {
-      legend.classList.remove("hide");
-    } else if ((status && !input.checked) || !status) {
-      legend.classList.add("hide");
+    legends.forEach((legend) => {
+      if (status && input.checked) {
+        legend.classList.remove("hide");
+      } else if ((status && !input.checked) || !status) {
+        legend.classList.add("hide");
+      }
+    });
+  });
+}
+
+function changeMapStyle(e) {
+  loading.classList.remove("hide");
+  toggleMenus(false);
+  const copyrightChilds = document.querySelectorAll(".copyright *");
+
+  copyrightChilds.forEach((child) => {
+    if (e.target.value === "monochrome") {
+      child.style.color = "black";
+    }
+
+    if (e.target.value === "satellite") {
+      child.style.color = "white";
     }
   });
+
+  map.setStyle(e.target.id);
+  hasStyleChanged = true;
 }
 
 function renderMapLayers() {
@@ -85,77 +153,12 @@ function renderMapLayers() {
   });
 }
 
-/** ------------ Event listeners -------------*/
-viewInputs.forEach((input) => {
-  input.addEventListener("click", function (e) {
-    loading.classList.remove("hide");
-    toggleMenus(false);
-    const copyrightChilds = document.querySelectorAll(".copyright *");
-
-    copyrightChilds.forEach((child) => {
-      if (e.target.value === "monochrome") {
-        child.style.color = "black";
-      }
-
-      if (e.target.value === "satellite") {
-        child.style.color = "white";
-      }
-    });
-
-    map.setStyle(e.target.id);
-    hasStyleChanged = true;
-  });
-});
-
-mainLayerButtons.forEach((layer) => {
-  layer.addEventListener("click", function () {
-    const mainLayer = layerData[this.id];
-
-    if (mainLayer.subLayers.length > 0) {
-      mainLayer.isActive = !mainLayer.isActive;
-      mainLayer.subLayers.forEach((layer) => {
-        const subLayerDOM = document.getElementById(layer.id);
-        toggleLayerHelper(layer, "sub", mainLayer.isActive, subLayerDOM);
-      });
-
-      this.className = mainLayer.isActive ? "active" : "";
-    } else {
-      toggleLayerHelper(mainLayer, "main", !mainLayer.isActive, this);
-    }
-  });
-});
-
-subLayerButtons.forEach((layer) => {
-  layer.addEventListener("click", function () {
-    const mainLayer = layerData[this.getAttribute("mainLayerId")];
-    const subLayer = mainLayer.subLayers.find((layer) => layer.id === this.id);
-
-    toggleLayerHelper(subLayer, "sub", !subLayer.isActive, this);
-    updateMainLayer(mainLayer);
-  });
-});
-
-legendsInputs.forEach((input) => {
-  input.addEventListener("click", (e) => {
-    const legendName = e.target.id;
-    const allLegends = document.querySelectorAll("div[dataId]");
-    allLegends.forEach((legend) => {
-      if (legend.getAttribute("dataId") !== legendName) {
-        legend.classList.add("hide");
-      } else {
-        legend.classList.remove("hide");
-      }
-    });
-  });
-});
-
-/** event listeners on the map tile */
-map.on("load", renderMapLayers);
-
-map.on("idle", function () {
+function handleMapIdle() {
   mapStylesDiv.className = "";
   toggleMenus(true);
 
+  // if the map has changed style
+  //   load previous styles layers
   if (hasStyleChanged) {
     hasStyleChanged = false;
     renderMapLayers();
@@ -163,18 +166,34 @@ map.on("idle", function () {
 
   loading.classList.add("hide");
   console.log("idle");
+}
+
+/* ----------Event listeners ---------- */
+
+viewInputs.forEach((input) => {
+  input.addEventListener("click", changeMapStyle);
 });
+
+mainLayerButtons.forEach((layer) => {
+  layer.addEventListener("click", toggleMainLayer);
+});
+
+subLayerButtons.forEach((layer) => {
+  layer.addEventListener("click", toggleSubLayer);
+});
+
+legendsInputs.forEach((input) => {
+  input.addEventListener("click", updateLegends);
+});
+
+/** event listeners on the map tile */
+map.on("load", renderMapLayers);
+
+map.on("idle", handleMapIdle);
 
 // popup features
 map.on("click", "conflicted-zones", (e) => {
-  const coordinates = e.features[0].geometry.coordinates.slice();
-  const div = createConflictPopUp(e.features[0].properties);
-
-  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-  }
-
-  new mapboxgl.Popup().setLngLat(coordinates).setDOMContent(div).addTo(map);
+  displayPopUp(e);
 });
 
 map.on("mouseenter", "conflicted-zones", () => {
