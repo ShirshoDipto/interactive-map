@@ -15,13 +15,13 @@
 
 
     <div id="map-styles" class="hide">
-        <input id="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7" type="radio" name="jtoggle" value="monochrome" checked>
+        <input id="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7" type="radio" name="jtoggle" value="Monochrome" checked>
         <label for="mapbox://styles/shirshodipto/clc35ntfr005114mp3i4fd3i7">Monochrome</label>
-        <input id="mapbox://styles/shirshodipto/clcluk93l003z15oed6tkuwfo" type="radio" name="jtoggle" value="satellite">
+        <input id="mapbox://styles/shirshodipto/clcluk93l003z15oed6tkuwfo" type="radio" name="jtoggle" value="Satellite">
         <label for="mapbox://styles/shirshodipto/clcluk93l003z15oed6tkuwfo">Satellite</label>
     </div>
 
-    <nav id="layers" class="hide">
+    <nav id="main-layer-options" class="hide">
         <a href="#" class="active" id="conflicted-zones">Conflict Zones</a>
         <a href="#" class="active" id="oil-pipelines">Oil Pipelines</a>
         <a href="#" class="active" id="gas-pipelines">Gas Pipelines</a>
@@ -50,42 +50,42 @@
         <div class="status">Oil Pipelines</div>
         <div class="color-operating"><div></div></div>
         <div class="name-operating">
-            <input checked type="checkbox" id="oil-pipelines-operating" name="oil-pipelines-operating">
+            <input checked type="checkbox" id="oil-pipelines-operating" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-operating">Operating</label>
         </div>
         <div class="color-retired"><div></div></div>
         <div class="name-retired">
-            <input checked type="checkbox" id="oil-pipelines-retired" name="oil-pipelines-retired">
+            <input checked type="checkbox" id="oil-pipelines-retired" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-retired">Retired</label>
         </div>
         <div class="color-cancelled"><div></div></div>
         <div class="name-cancelled">
-            <input checked type="checkbox" id="oil-pipelines-cancelled" name="oil-pipelines-cancelled">
+            <input checked type="checkbox" id="oil-pipelines-cancelled" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-cancelled">Cancelled</label>
         </div>
         <div class="color-construction"><div></div></div>
         <div class="name-construction">
-            <input checked type="checkbox" id="oil-pipelines-construction" name="oil-pipelines-construction">
+            <input checked type="checkbox" id="oil-pipelines-construction" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-construction">Construction</label>
         </div>
         <div class="color-shelved"><div></div></div>
         <div class="name-shelved">
-            <input checked type="checkbox" id="oil-pipelines-shelved" name="oil-pipelines-shelved">
+            <input checked type="checkbox" id="oil-pipelines-shelved" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-shelved">Shelved</label>
         </div>
         <div class="color-proposed"><div></div></div>
         <div class="name-proposed">
-            <input checked type="checkbox" id="oil-pipelines-proposed" name="oil-pipelines-proposed">
+            <input checked type="checkbox" id="oil-pipelines-proposed" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-proposed">Proposed</label>
         </div>
         <div class="color-mothballed"><div></div></div>
         <div class="name-mothballed">
-            <input checked type="checkbox" id="oil-pipelines-mothballed" name="oil-pipelines-mothballed">
+            <input checked type="checkbox" id="oil-pipelines-mothballed" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-mothballed">Mothballed</label>
         </div>
         <div class="color-idle"><div></div></div>
         <div class="name-idle">
-            <input checked type="checkbox" id="oil-pipelines-idle" name="oil-pipelines-idle">
+            <input checked type="checkbox" id="oil-pipelines-idle" mainLayerId="oil-pipelines">
             <label for="oil-pipelines-idle">Idle</label>
         </div>
     </div>
@@ -96,42 +96,42 @@
         <div class="status">Gas Pipelines</div>
         <div class="color-operating"><div></div></div>
         <div class="name-operating">
-            <input checked type="checkbox" id="gas-pipelines-operating" name="gas-pipelines-operating">
+            <input checked type="checkbox" id="gas-pipelines-operating" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-operating">Operating</label>
         </div>
         <div class="color-retired"><div></div></div>
         <div class="name-retired">
-            <input checked type="checkbox" id="gas-pipelines-retired" name="gas-pipelines-retired">
+            <input checked type="checkbox" id="gas-pipelines-retired" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-retired">Retired</label>
         </div>
         <div class="color-cancelled"><div></div></div>
         <div class="name-cancelled">
-            <input checked type="checkbox" id="gas-pipelines-cancelled" name="gas-pipelines-cancelled">
+            <input checked type="checkbox" id="gas-pipelines-cancelled" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-cancelled">Cancelled</label>
         </div>
         <div class="color-construction"><div></div></div>
         <div class="name-construction">
-            <input checked type="checkbox" id="gas-pipelines-construction" name="gas-pipelines-construction">
+            <input checked type="checkbox" id="gas-pipelines-construction" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-construction">Construction</label>
         </div>
         <div class="color-shelved"><div></div></div>
         <div class="name-shelved">
-            <input checked type="checkbox" id="gas-pipelines-shelved" name="gas-pipelines-shelved">
+            <input checked type="checkbox" id="gas-pipelines-shelved" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-shelved">Shelved</label>
         </div>
         <div class="color-proposed"><div></div></div>
         <div class="name-proposed">
-            <input checked type="checkbox" id="gas-pipelines-proposed" name="gas-pipelines-proposed">
+            <input checked type="checkbox" id="gas-pipelines-proposed" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-proposed">Proposed</label>
         </div>
         <div class="color-mothballed"><div></div></div>
         <div class="name-mothballed">
-            <input checked type="checkbox" id="gas-pipelines-mothballed" name="gas-pipelines-mothballed">
+            <input checked type="checkbox" id="gas-pipelines-mothballed" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-mothballed">Mothballed</label>
         </div>
         <div class="color-idle"><div></div></div>
         <div class="name-idle">
-            <input checked type="checkbox" id="gas-pipelines-idle" name="gas-pipelines-idle">
+            <input checked type="checkbox" id="gas-pipelines-idle" mainLayerId="gas-pipelines">
             <label for="gas-pipelines-idle">Idle</label>
         </div>
     </div>
@@ -183,7 +183,7 @@
     </div>
 
         
-    <img class="loading hide" src="icons/loading2.gif" alt="loading gif">
+    <img class="loading" src="icons/loading2.gif" alt="loading gif">
 </body>
 <script src="main.js"></script>
 </html>
