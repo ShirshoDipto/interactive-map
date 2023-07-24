@@ -122,9 +122,9 @@ function changeMapStyle(e) {
   const copyrightChilds = document.querySelectorAll(".copyright *");
 
   copyrightChilds.forEach((child) => {
-    if (e.target.value === "monochrome") {
+    if (e.target.value === "Monochrome") {
       child.style.color = "black";
-    } else if (e.target.value === "satellite") {
+    } else if (e.target.value === "Satellite") {
       child.style.color = "white";
     }
   });
