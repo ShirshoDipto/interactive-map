@@ -12,7 +12,7 @@ This app utilizes Mapbox to provide an interactive and intuitive data visualizat
 - HTML
 - CSS
 - Webpack
-- [Mapbox GL](https://www.mapbox.com)
+- [MapboxGL](https://www.mapbox.com)
 - [Mapbox Studio](https://www.mapbox.com)
 
 ## Key Features
