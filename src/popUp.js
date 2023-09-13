@@ -7,9 +7,9 @@ function createContent(classValue, textValue, appendTo) {
   return div;
 }
 
-function createContainer(classValue, appendTo) {
+function createContainer(appendTo) {
   const div = document.createElement("div");
-  div.className = classValue;
+  div.className = "infoContainer";
   appendTo.appendChild(div);
 
   return div;
@@ -21,11 +21,11 @@ export default function createConflictPopUp(data) {
 
   createContent("title", data.territory, div);
 
-  const nature = createContainer("nature", div);
-  const since = createContainer("since", div);
-  const deaths = createContainer("death", div);
-  const currentStatus = createContainer("current-status", div);
-  const impacts = createContainer("impacts", div);
+  const nature = createContainer(div);
+  const since = createContainer(div);
+  const deaths = createContainer(div);
+  const currentStatus = createContainer(div);
+  const impacts = createContainer(div);
 
   createContent("header", "NATURE OF CONFLICT", nature);
   createContent("description", data.nature_of_conflict, nature);
