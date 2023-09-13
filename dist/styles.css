@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
 }
 
 :root {
@@ -51,7 +52,6 @@
     top: 10px;
     right: 10px;
     width: 120px;
-    font-family: 'Open Sans', sans-serif;
     box-shadow: 0px 5px 5px var(--shadow-color);
 }
 
@@ -176,6 +176,24 @@
     cursor: pointer;
 }
 
+#map-styles {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legends-inputs {
+    height: 20px;
+    overflow-x: auto;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.legends-inputs label {
+    white-space: nowrap;
+}
+
 #oil-linestrings {
     bottom: var(--from-bottom);
     right: var(--from-right);
@@ -274,13 +292,8 @@
     gap: 10px;
     padding: 10px;
     position: absolute;
-}
-
-.pipelines-summary .title {
-    grid-column: 1 / 3;
-    font-weight: bold;
-    font-size: 1.5rem;
-    text-align: center;
+    top: var(--from-top);
+    left: var(--from-left);
 }
 
 .pipelines-summary .total {
@@ -298,18 +311,6 @@
 .pipelines-summary .table .value {
     display: flex;
     justify-content: flex-end;
-}
-
-/* oil pipelines summary */
-#oil-pipelines-summary {
-    top: 50px;
-    left: 10px;
-}
-
-/* gas pipelines summary  */
-#gas-pipelines-summary {
-    top: 50px;
-    left: 10px;
 }
 
 /* hide */
@@ -368,7 +369,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 0px;
     font-size: 0.9rem;
 }
 
@@ -379,12 +379,15 @@
     font-size: 0.8rem;
 }
 
-a {
+.copyright p a,
+.credits p a {
+    font-weight: bold;
     text-decoration: none;
     color: black;
 }
 
-a:hover {
+.copyright p a:hover,
+.credits p a:hover {
     text-decoration: underline;
 }
 
@@ -395,4 +398,95 @@ a:hover {
     left: 30px;
     height: 30px;
     width: 30px;
+}
+
+@media (max-width: 1100px) {
+    :root {
+        --from-right: 10px;
+        --from-bottom: 115px;
+        --from-left: 10px;
+        --from-top: 50px;
+    }
+
+    .mapboxgl-ctrl-bottom-left {
+        display: none;
+    }
+
+    #show-legends {
+        bottom: 35px;
+    }
+
+    .copyright {
+        font-size: 0.7rem;
+        padding-right: 20px;
+    }
+
+    .credits {
+        font-size: 0.6rem;
+        padding: 1px;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --from-right: 5px;
+        --from-bottom: 95px;
+        --from-left: 5px;
+        --from-top: 30px;
+    }
+
+    #map-styles {
+        padding: 5px;
+        font-size: 0.7rem;
+    }
+
+    #main-layer-options {
+        top: 0;
+        right: 0;
+        width: 100px;
+    }
+
+    #main-layer-options a {
+        font-size: 0.7rem;
+    }
+
+    #show-legends {
+        font-size: 0.7rem;
+        padding: 5px;
+        gap: 5px;
+    }
+
+    .labels-details {
+        font-size: 0.7rem;
+        padding: 5px;
+    }
+
+    .conflict-zones-detail {
+        font-size: 0.7rem;
+    }
+
+    .legends-inputs {
+        gap: 2px;
+    }
+
+    .pipelines-summary {
+        padding: 5px;
+        gap: 5px;
+    }
+
+    .pipelines-summary .total {
+        font-size: 0.7rem;
+    }
+
+    .pipelines-summary .table {
+        font-size: 0.6rem;
+    }
+
+    .copyright {
+        font-size: 0.6rem;
+    }
+
+    .credits {
+        font-size: 0.5rem;
+    }
 }

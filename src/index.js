@@ -51,7 +51,7 @@ function updateMainLayer(mainLayer) {
   );
 
   // Update mainlayer data
-  mainLayer.isActive = isAllInactive ? false : true;
+  mainLayer.isActive = !isAllInactive;
 
   // Update mainLayer dom
   const mainLayerDOM = document.getElementById(mainLayer.id);
@@ -134,7 +134,7 @@ function changeMapStyle(e) {
 
   // Change the style data
   Object.values(mapStyles).forEach((style) => {
-    style.isActive = this.id === style.id ? true : false;
+    style.isActive = this.id === style.id;
   });
 }
 
