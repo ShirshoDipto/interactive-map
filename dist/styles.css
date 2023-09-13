@@ -463,10 +463,15 @@
 
     .conflict-zones-detail {
         font-size: 0.7rem;
+        padding: 5px 10px 5px 10px;
     }
 
-    .legends-inputs {
-        gap: 2px;
+    .start {
+        margin-right: 5px;
+    }
+
+    .end {
+        margin-left: 5px;
     }
 
     .pipelines-summary {
