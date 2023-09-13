@@ -427,7 +427,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     :root {
         --from-right: 5px;
         --from-bottom: 95px;
