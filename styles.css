@@ -489,4 +489,19 @@
     .credits {
         font-size: 0.5rem;
     }
+
+    .pop-up {
+        padding: 0;
+        gap: 15px;
+        width: 170px;
+        height: 300px;
+    }
+
+    .pop-up .title {
+        font-size: 1rem;
+    }
+
+    .pop-up .infoContainer {
+        font-size: 0.7rem;
+    } 
 }
