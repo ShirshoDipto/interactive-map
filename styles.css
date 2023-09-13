@@ -459,6 +459,7 @@
     .labels-details {
         font-size: 0.7rem;
         padding: 5px;
+        gap: 5px;
     }
 
     .conflict-zones-detail {
